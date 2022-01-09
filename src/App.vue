@@ -1,29 +1,49 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+    <Game :cubeValues="cubeValues" :wordLength="wordLength"/>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import HelloWorld from './components/HelloWorld.vue'
+import Game from './components/Game.vue'
 
 export default Vue.extend({
   name: 'App',
-  components: {
-    HelloWorld
-  }
+  components: { Game },
+  data: () => ({
+    cubeValues: genCubeValues(10),
+    wordLength: 6
+  })
 })
+
+function genCubeValues (setNum: number): string[][] {
+  const alpha = [
+    'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+    'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+  ]
+  const sets: string[][] = []
+  for (let s = 0; s < setNum; s++) {
+    const set: string[] = []
+    const _alpha = [...alpha]
+    for (let i = 0; i < 6; i++) {
+      const letter = _alpha[Math.floor(Math.random() * _alpha.length)]
+      _alpha.splice(_alpha.indexOf(letter), 1)
+      set.push(letter)
+    }
+    sets.push(set)
+  }
+  return sets
+}
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+
+body {
+  font-family: Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  background-color: #2c3e50;
 }
+
 </style>
